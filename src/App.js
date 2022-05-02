@@ -9,7 +9,7 @@ function App() {
   useEffect(() => {
     const data = new FormData()
     data.append("actionName", "MessagesLoad")
-    axios.post("http://f0665380.xsph.ru/", data)
+    axios.post("https://f0665380.xsph.ru/", data)
       .then(res => {
         const sortedMessages = res.data.Messages.sort((a, b) => (
           new Date(a.date).getTime() - new Date(b.date).getTime()
