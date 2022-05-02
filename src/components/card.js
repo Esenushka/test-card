@@ -1,21 +1,28 @@
 import { useEffect, useState } from "react"
 
 export default function Card({ author, channel, date, content, attachments, id }) {
-    const stars = JSON.parse(localStorage.getItem("star"))
-    const [active, setActive] = useState(stars[id])
+    const [active, setActive] = useState(false)
     const [longStr, setLongStr] = useState(content.length > 250 ? true : false)
     const [hideShow, setHideShow] = useState(false)
     const add = () => {
         setActive(!active)
     }
+
     useEffect(() => {
+        const stars = JSON.parse(localStorage.getItem("star")) || {}
+        setActive(stars[id])
+    }, [id]);
+
+    useEffect(() => {
+        const stars = JSON.parse(localStorage.getItem("star")) || {}
         localStorage.setItem("star", JSON.stringify({ ...stars, [id]: active }))
-    }, [active])
+    }, [active, id]);
+
     return (
         <div className="main_wrapper">
             <header>
                 <div className='left'>
-                    <img src='/images/photo.png' alt='photo' />
+                    <img src='/images/photo.png' alt='Logo' />
                     <div>
                         <div>
                             {author}
@@ -57,7 +64,7 @@ export default function Card({ author, channel, date, content, attachments, id }
                                     </source>
                                 </video>
                                 :
-                                <img key={el.type} className="attachment" src={el.url} />
+                                <img key={el.type} className="attachment" src={el.url} alt={el.type} />
                         )
                     }
                 </div>
